@@ -3,7 +3,7 @@ Matéria: Estrutura de Dados 2022.2
 
 ## Pré-requisitos
 
-library grapchics.h
+library graphics.h
 ```bash
 #include <graphics.h>
 ```
