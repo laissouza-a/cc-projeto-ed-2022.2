@@ -1,43 +1,39 @@
+#include <graphics.h>
 #include <stdio.h>
+#include <conio.h>
 
-int main (void)
+void hexa ()
 {
-    int n, m;
+    line(200, 100, 200, 150);
+    line(200, 100, 230, 60);
+    line(230, 60, 280, 60);
+    line(280, 60, 310, 100);
+    line(310, 100, 310, 150);
+    line(310, 150, 280, 190);
+    line(280, 190, 230, 190);
+    line(230, 190, 200, 150);
+}
 
-    while (1)
-    {
-        printf("Digite as dimensões da casa em dm: ");
-        scanf("%d %d", &n, &m);
+int main(void) 
+{
+    int gdriver = DETECT, gmode;
+    int area;
 
-        if (n >= 10 && m >= 10)
-            break;
+    printf("Digite a area: ");
+    scanf("%d", &area);
 
-        printf("\nImpossivel ter uma casa com menos de 1 m (10 dm)\n");
-    }
-    
-    printf("\n\n");
+    initgraph(&gdriver, &gmode, "");
+    hexa();
+    /*
+    line(200, 50, 200, 150);
+    line(300, 200, 400, 300);
+    line(300, 200, 200, 300);
+    line(200, 300, 300, 400);
+    line(300, 400, 400, 300);
+    */
 
-    for (int i = 0; i < n ; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            if (j == 0 || j + 1 == m || i == 0 || i + 1 == n)
-            {
-                printf("1");
-            }
-            else
-            {
-                printf("0");
-            }
-
-            if (j + 1 == m)
-                printf("\n");
-        }
-
-        
-    }
-    
-    printf("\n\n");
+    getch();
+    closegraph();
 
     return 0;
 }
