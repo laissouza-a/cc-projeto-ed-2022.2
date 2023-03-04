@@ -3,12 +3,15 @@ Matéria: Estrutura de Dados 2022.2
 
 ## Pré-requisitos
 
-library graphics.h
+Sistema operacioanl: Ubuntu 22.04
+
+Instalar Opengl
 ```bash
-#include <graphics.h>
+sudo chmod 777 install.sh
+./install.sh
 ```
 
-Executar
+Executar o programa
 ```bash
- g++ .\test.c -o .\test.exe -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32
+ make all
 ```
