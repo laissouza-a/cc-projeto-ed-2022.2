@@ -121,12 +121,16 @@ list *add_vertex (int x, int y, list *head)
 
 void print_lines_vertices (list *head)
 {
+  glBegin(GL_LINE_STRIP);
+
   while (head != NULL)
   {
     glVertex2i(head->x, head->y);
     head = head->next;
   }
 
+  glEnd();
+  glFlush();
 }
 
 int area_with_matrix (int matrix[][2], int size)
@@ -199,8 +203,6 @@ list *build_area_house (int matrix[][2], int sum_matrix[][2], int area)
 
   int area_end = search_of_area_size(matrix, sum_matrix, 6, area);
 
-  printf("\nArea inicial = %d\nArea final da casa: %d\n\n", area, area_end);
-
   for (int i = 0; i < 6; i++)
   {
     l = add_vertex(matrix[i][0], matrix[i][1], l);
@@ -224,10 +226,14 @@ gym_room *build_gym_room (int matrix[][2], int sum_matrix[][2], int area)
 
   g->list_vertex = NULL;
 
+  if (area > 30000)
+    area = 30000;
+  
+  if (area < 20000)
+    area = 20000;
+
   int area_end = search_of_area_size(matrix, sum_matrix, 4, area);
-
-  printf("\nArea inicial = %d\nArea do quarto com closet: %d\n\n", area, area_end);
-
+  
   for (int i = 0; i < 4; i++)
   {
     g->list_vertex = add_vertex(matrix[i][0], matrix[i][1], g->list_vertex);
@@ -242,10 +248,6 @@ gym_room *build_gym_room (int matrix[][2], int sum_matrix[][2], int area)
 service_area *build_service_area (int matrix[][2], int sum_matrix[][2], int area)
 {
 
-  if (area > 10000)
-    area = 10000;
-  
-
   service_area *s = (service_area *) malloc(sizeof(service_area));
 
   if (s == NULL)
@@ -255,10 +257,14 @@ service_area *build_service_area (int matrix[][2], int sum_matrix[][2], int area
   }
 
   s->list_vertex = NULL;
+  
+  if (area > 10000)
+    area = 10000;
+  
+  if (area < 6000)
+    area = 6000;
 
   int area_end = search_of_area_size(matrix, sum_matrix, 4, area);
-
-  printf("\nArea inicial = %d\nArea do quarto com closet: %d\n\n", area, area_end);
 
   for (int i = 0; i < 4; i++)
   {
@@ -283,9 +289,13 @@ kitchen *build_kitchen (int matrix[][2], int sum_matrix[][2], int area)
 
   k->list_vertex = NULL;
 
-  int area_end = search_of_area_size(matrix, sum_matrix, 4, area);
+  if (area < 10000)
+    area = 10000;
 
-  printf("\nArea inicial = %d\nArea do quarto com closet: %d\n\n", area, area_end);
+  if (area > 15000)
+    area = 15000;
+
+  int area_end = search_of_area_size(matrix, sum_matrix, 4, area);
 
   for (int i = 0; i < 4; i++)
   {
@@ -310,9 +320,14 @@ living_room *build_living_room (int matrix[][2], int sum_matrix[][2], int area)
 
   r->list_vertex = NULL;
 
-  int area_end = search_of_area_size(matrix, sum_matrix, 5, area);
+  if (area < 30000)
+    area = 30000;
 
-  printf("\nArea inicial sala = %d\nArea sala: %d\n\n", area, area_end);
+  if (area < 40000)
+    area = 40000;
+
+
+  int area_end = search_of_area_size(matrix, sum_matrix, 5, area);
 
   for (int i = 0; i < 5; i++)
   {
@@ -336,10 +351,14 @@ bathroom *build_bathroom (int matrix[][2], int sum_matrix[][2], int area)
   }
 
   b->list_vertex = NULL;
+  
+  if (area < 3000)
+    area = 3000;
+  
+  if (area > 8000)
+    area = 8000;
 
   int area_end = search_of_area_size(matrix, sum_matrix, 4, area);
-
-  printf("\nArea inicial = %d\nArea do quarto com closet: %d\n\n", area, area_end);
 
   for (int i = 0; i < 4; i++)
   {
@@ -364,9 +383,14 @@ closet *build_closet (int matrix[][2], int sum_matrix[][2], int area)
 
   c->list_vertex = NULL;
 
-  int area_end = search_of_area_size(matrix, sum_matrix, 4, area);
+  //verificando a area do closet [3,4]
+  if (area > 4000)
+    area = 4000;
+  
+  if (area < 3000)
+    area = 3000;
 
-  printf("\nArea inicial = %d\nArea do quarto com closet: %d\n\n", area, area_end);
+  int area_end = search_of_area_size(matrix, sum_matrix, 4, area);
 
   for (int i = 0; i < 4; i++)
   {
@@ -379,7 +403,7 @@ closet *build_closet (int matrix[][2], int sum_matrix[][2], int area)
   return c;
 }
 
-dining_room_with_kitchen *build_dining_room_with_kitchen (int matrix[][2], int sum_matrix[][2], int area)
+dining_room_with_kitchen *build_dining_room_with_kitchen (int matrix[][2], int sum_matrix[][2], int area, int pos)
 {
   dining_room_with_kitchen *r = (dining_room_with_kitchen *) malloc(sizeof(dining_room_with_kitchen));
 
@@ -391,9 +415,13 @@ dining_room_with_kitchen *build_dining_room_with_kitchen (int matrix[][2], int s
 
   r->list_vertex = NULL;
 
-  int area_end = search_of_area_size(matrix, sum_matrix, 4, area);
+  if (area > 45000)
+    area = 45000;
+  
+  if (area < 25000)
+    area = 25000;
 
-  printf("\nArea teste = %d\nArea do sala com cozinha: %d\n\n", area, area_end);
+  int area_end = search_of_area_size(matrix, sum_matrix, 4, area);
 
   for (int i = 0; i < 4; i++)
   {
@@ -402,7 +430,10 @@ dining_room_with_kitchen *build_dining_room_with_kitchen (int matrix[][2], int s
     if (i + 1 == 4)
       r->list_vertex = add_vertex(matrix[0][0], matrix[0][1], r->list_vertex);
   }
-    
+  
+  //verificar pela posição do norte
+  if (pos == 1)
+  {
     matrix[0][0] = matrix[1][0];
     matrix[0][1] = matrix[1][1];
     matrix[3][0] = matrix[2][0];
@@ -415,20 +446,66 @@ dining_room_with_kitchen *build_dining_room_with_kitchen (int matrix[][2], int s
     sum_matrix[2][0] = 0;
     sum_matrix[2][1] = 1;
     sum_matrix[3][0] = 0;
-    sum_matrix[3][1] = 0; 
+    sum_matrix[3][1] = 0;
+  }
+  else if (pos == 2)
+  {
+    matrix[0][0] = matrix[3][0];
+    matrix[0][1] = matrix[3][1];
+    matrix[1][0] = matrix[2][0];
+    matrix[1][1] = matrix[2][1];
 
-    int area_kitchen = (int) ((double)area_end * 0.4);
-    
-    if (area_kitchen > 15000)
-      area_kitchen = 15000;
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = 0;
+    sum_matrix[2][0] = 1;
+    sum_matrix[2][1] = 0;
+    sum_matrix[3][0] = 1;
+    sum_matrix[3][1] = 0;
+  }
+  else if (pos == 3)
+  {
+    matrix[0][0] = matrix[1][0];
+    matrix[0][1] = matrix[1][1];
+    matrix[3][0] = matrix[2][0];
+    matrix[3][1] = matrix[2][1];
 
-    r->kitchen = build_kitchen(matrix, sum_matrix, area_kitchen);
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = -1;
+    sum_matrix[2][0] = 0;
+    sum_matrix[2][1] = -1;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = 0;
+  }
+  else if (pos == 4)
+  {
+    matrix[0][0] = matrix[3][0];
+    matrix[0][1] = matrix[3][1];
+    matrix[1][0] = matrix[2][0];
+    matrix[1][1] = matrix[2][1];
 
-    return r;
+    sum_matrix[0][0] = -1;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = -1;
+    sum_matrix[1][1] = 0;
+    sum_matrix[2][0] = 0;
+    sum_matrix[2][1] = 0;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = 0;
+  } 
+
+  int area_kitchen = (int) ((double)area_end * 0.4);
+
+  r->kitchen = build_kitchen(matrix, sum_matrix, area_kitchen);
+
+  return r;
 
 }
 
-bedroom_with_closet *build_beadroom_with_closet(int matrix[][2], int sum_matrix[][2], int area)
+bedroom_with_closet *build_beadroom_with_closet(int matrix[][2], int sum_matrix[][2], int area, int pos)
 {
   bedroom_with_closet *b = (bedroom_with_closet *) malloc(sizeof(bedroom_with_closet));
 
@@ -440,9 +517,14 @@ bedroom_with_closet *build_beadroom_with_closet(int matrix[][2], int sum_matrix[
 
   b->list_vertex = NULL;
 
-  int area_end = search_of_area_size(matrix, sum_matrix, 4, area);
+  //verificando o limite [15, 38] m²
+  if (area < 15000)
+    area = 15000;
 
-  printf("\nArea inicial = %d\nArea do quarto com closet: %d\n\n", area, area_end);
+  if (area > 34000)
+    area = 34000;
+
+  int area_end = search_of_area_size(matrix, sum_matrix, 4, area);
 
   for (int i = 0; i < 4; i++)
   {
@@ -452,31 +534,80 @@ bedroom_with_closet *build_beadroom_with_closet(int matrix[][2], int sum_matrix[
       b->list_vertex = add_vertex(matrix[0][0], matrix[0][1], b->list_vertex);
   }
 
-  matrix[1][0] = matrix[0][0];
-  matrix[1][1] = matrix[0][1];
-  matrix[2][0] = matrix[3][0];
-  matrix[2][1] = matrix[3][1];
-
-  sum_matrix[0][0] = 0;
-  sum_matrix[0][1] = 0;
-  sum_matrix[1][0] = 0;
-  sum_matrix[1][1] = -1;
-  sum_matrix[2][0] = 0;
-  sum_matrix[2][1] = -1;
-  sum_matrix[3][0] = 0;
-  sum_matrix[3][1] = 0; 
-
-  int area_closet = (int) ((double)area_end * 0.2);
   
-  if (area_closet > 4000)
-    area_closet = 4000;
+  //verificar pela posição do norte
+  if (pos == 1)
+  {
+    matrix[0][0] = matrix[3][0];
+    matrix[0][1] = matrix[3][1];
+    matrix[1][0] = matrix[2][0];
+    matrix[1][1] = matrix[2][1];
 
-  b->closet = build_closet(matrix, sum_matrix, area_closet);
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = -1;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = -1;
+    sum_matrix[2][0] = 0;
+    sum_matrix[2][1] = 0;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = 0; 
+
+  }
+  else if (pos == 2)
+  {
+    matrix[0][0] = matrix[3][0];
+    matrix[0][1] = matrix[3][1];
+    matrix[1][0] = matrix[2][0];
+    matrix[1][1] = matrix[2][1];
+
+    sum_matrix[0][0] = -1;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = -1;
+    sum_matrix[1][1] = 0;
+    sum_matrix[2][0] = 0;
+    sum_matrix[2][1] = 0;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = 0; 
+  }
+  else if (pos == 3)
+  {
+    matrix[0][0] = matrix[3][0];
+    matrix[0][1] = matrix[3][1];
+    matrix[1][0] = matrix[2][0];
+    matrix[1][1] = matrix[2][1];
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 1;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = 1;
+    sum_matrix[2][0] = 0;
+    sum_matrix[2][1] = 0;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = 0; 
+  }
+  else if (pos == 4)
+  {
+    matrix[0][0] = matrix[1][0];
+    matrix[0][1] = matrix[1][1];
+    matrix[3][0] = matrix[2][0];
+    matrix[3][1] = matrix[2][1];
+
+    sum_matrix[0][0] = 1;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = 0;
+    sum_matrix[2][0] = 0;
+    sum_matrix[2][1] = 0;
+    sum_matrix[3][0] = 1;
+    sum_matrix[3][1] = 0; 
+  }
+
+  b->closet = build_closet(matrix, sum_matrix, (int) ((double)area_end * 0.25));
 
   return b;
 }
 
-bedroom_with_bathroom *build_beadroom_with_bathroom(int matrix[][2], int sum_matrix[][2], int area, int num_v)
+bedroom_with_bathroom *build_beadroom_with_bathroom(int matrix[][2], int sum_matrix[][2], int area, int pos, int num_bed)
 {
   bedroom_with_bathroom *b = (bedroom_with_bathroom *) malloc(sizeof(bedroom_with_bathroom));
 
@@ -488,9 +619,15 @@ bedroom_with_bathroom *build_beadroom_with_bathroom(int matrix[][2], int sum_mat
 
   b->list_vertex = NULL;
 
+  //verificando o limite [15, 38]
+  if (area < 15000)
+    area = 15000;
+
+  if (area > 38000)
+    area = 38000;
+
   int area_end = search_of_area_size(matrix, sum_matrix, 4, area);
 
-  printf("\nArea inicial = %d\nArea do quarto com banheiro: %d\n\n", area, area_end);
   for (int i = 0; i < 4; i++)
   {
     b->list_vertex = add_vertex(matrix[i][0], matrix[i][1], b->list_vertex);
@@ -498,51 +635,137 @@ bedroom_with_bathroom *build_beadroom_with_bathroom(int matrix[][2], int sum_mat
     if (i + 1 == 4)
       b->list_vertex = add_vertex(matrix[0][0], matrix[0][1], b->list_vertex);
   }
-  
-  
-  matrix[0][0] = matrix[num_v][0];
-  matrix[0][1] = matrix[num_v][1];
 
-  for (int i = 1; i < 4; i++)
+  if (pos == 1)
   {
-    matrix[i][0] = matrix[0][0];
-    matrix[i][1] = matrix[0][1];
+    for (int i = 1; i < 4; i++)
+    {
+      matrix[i][0] = matrix[0][0];
+      matrix[i][1] = matrix[0][1];
+    }
+
+    if (num_bed == 1)
+    {
+
+      sum_matrix[0][0] = 0;
+      sum_matrix[0][1] = 0;
+      sum_matrix[1][0] = -1;
+      sum_matrix[1][1] = 0;
+      sum_matrix[2][0] = -1;
+      sum_matrix[2][1] = 1;
+      sum_matrix[3][0] = 0;
+      sum_matrix[3][1] = 1; 
+    }
+    else if(num_bed == 2)
+    {
+      sum_matrix[0][0] = 0;
+      sum_matrix[0][1] = 0;
+      sum_matrix[1][0] = 1;
+      sum_matrix[1][1] = 0;
+      sum_matrix[2][0] = 1;
+      sum_matrix[2][1] = 1;
+      sum_matrix[3][0] = 0;
+      sum_matrix[3][1] = 1;
+    }
+  }
+  else if (pos == 2)
+  {
+    for (int i = 1; i < 4; i++)
+    {
+      matrix[i][0] = matrix[0][0];
+      matrix[i][1] = matrix[0][1];
+    }
+
+    if (num_bed == 1)
+    {
+
+      sum_matrix[0][0] = 0;
+      sum_matrix[0][1] = 0;
+      sum_matrix[1][0] = 1;
+      sum_matrix[1][1] = 0;
+      sum_matrix[2][0] = 1;
+      sum_matrix[2][1] = 1;
+      sum_matrix[3][0] = 0;
+      sum_matrix[3][1] = 1; 
+    }
+    else if(num_bed == 2)
+    {
+      sum_matrix[0][0] = 0;
+      sum_matrix[0][1] = 0;
+      sum_matrix[1][0] = 0;
+      sum_matrix[1][1] = -1;
+      sum_matrix[2][0] = 1;
+      sum_matrix[2][1] = -1;
+      sum_matrix[3][0] = 1;
+      sum_matrix[3][1] = 0;
+    }
+  }
+  else if (pos == 3)
+  {
+    for (int i = 1; i < 4; i++)
+    {
+      matrix[i][0] = matrix[0][0];
+      matrix[i][1] = matrix[0][1];
+    }
+
+    if (num_bed == 1)
+    {
+
+      sum_matrix[0][0] = 0;
+      sum_matrix[0][1] = 0;
+      sum_matrix[1][0] = 1;
+      sum_matrix[1][1] = 0;
+      sum_matrix[2][0] = 1;
+      sum_matrix[2][1] = -1;
+      sum_matrix[3][0] = 0;
+      sum_matrix[3][1] = -1; 
+    }
+    else if(num_bed == 2)
+    {
+      sum_matrix[0][0] = 0;
+      sum_matrix[0][1] = 0;
+      sum_matrix[1][0] = -1;
+      sum_matrix[1][1] = 0;
+      sum_matrix[2][0] = -1;
+      sum_matrix[2][1] = -1;
+      sum_matrix[3][0] = 0;
+      sum_matrix[3][1] = -1;
+    }
+  }
+  else if (pos == 4)
+  {
+    for (int i = 1; i < 4; i++)
+    {
+      matrix[i][0] = matrix[0][0];
+      matrix[i][1] = matrix[0][1];
+    }
+
+    if (num_bed == 1)
+    {
+
+      sum_matrix[0][0] = 0;
+      sum_matrix[0][1] = 0;
+      sum_matrix[1][0] = -1;
+      sum_matrix[1][1] = 0;
+      sum_matrix[2][0] = -1;
+      sum_matrix[2][1] = -1;
+      sum_matrix[3][0] = 0;
+      sum_matrix[3][1] = -1; 
+    }
+    else if(num_bed == 2)
+    {
+      sum_matrix[0][0] = 0;
+      sum_matrix[0][1] = 0;
+      sum_matrix[1][0] = 0;
+      sum_matrix[1][1] = 1;
+      sum_matrix[2][0] = -1;
+      sum_matrix[2][1] = 1;
+      sum_matrix[3][0] = -1;
+      sum_matrix[3][1] = 0;
+    }
   }
 
-  if (num_v == 1)
-  {
-
-    sum_matrix[0][0] = 0;
-    sum_matrix[0][1] = 0;
-    sum_matrix[1][0] = -1;
-    sum_matrix[1][1] = 0;
-    sum_matrix[2][0] = -1;
-    sum_matrix[2][1] = 1;
-    sum_matrix[3][0] = 0;
-    sum_matrix[3][1] = 1; 
-  }
-  else if(num_v == 3)
-  {
-    sum_matrix[0][0] = 0;
-    sum_matrix[0][1] = 0;
-    sum_matrix[1][0] = 1;
-    sum_matrix[1][1] = 0;
-    sum_matrix[2][0] = 1;
-    sum_matrix[2][1] = 1;
-    sum_matrix[3][0] = 0;
-    sum_matrix[3][1] = 1;
-  }
-
-  int area_bathroom = (int) ((double)area_end * 0.2);
-  
-  if (area_bathroom > 8000)
-    area_bathroom = 8000;
-
-  area_end = search_of_area_size(matrix, sum_matrix, 4, area_bathroom);
-
-  printf("\nArea inicial banheiro = %d\nArea do banheiro: %d\n\n", area_bathroom, area_end);
-
-  b->bathroom = build_bathroom(matrix, sum_matrix, area_bathroom);
+  b->bathroom = build_bathroom(matrix, sum_matrix, (int) ((double)area_end * 0.25));
 
   return b;
 }
@@ -568,12 +791,10 @@ house *build_house (int area, int pos)
   h->service_area = NULL;
   h->area = NULL;
 
-  //primeiro quarto com banheiro 
-  int area_bedroom = (int) ((double)area * 0.1315);
+  if (pos == 1)
+  {
 
-  if (area_bedroom > 38000)
-    area_bedroom = 38000;
-
+  //primeiro quarto com banheiro _
   int matrix[4][2], sum_matrix[4][2];
 
   for (int i = 0; i < 4; i++)
@@ -583,15 +804,15 @@ house *build_house (int area, int pos)
   }
 
   sum_matrix[0][0] = 1;
-  sum_matrix[0][1] = 1;
+  sum_matrix[0][1] = 0;
   sum_matrix[1][0] = 1;
-  sum_matrix[1][1] = -1;
+  sum_matrix[1][1] = 2;
   sum_matrix[2][0] = -1;
-  sum_matrix[2][1] = -1;
+  sum_matrix[2][1] = 2;
   sum_matrix[3][0] = -1;
-  sum_matrix[3][1] = 1; 
+  sum_matrix[3][1] = 0; 
 
-  h->bedroom1 = build_beadroom_with_bathroom(matrix, sum_matrix, area_bedroom, 1);
+  h->bedroom1 = build_beadroom_with_bathroom(matrix, sum_matrix, (int) ((double)area * 0.1315), pos, 1);
 
   //segundo quarto com banheiro 
   for (int i = 0; i < 4; i++)
@@ -605,12 +826,12 @@ house *build_house (int area, int pos)
   sum_matrix[1][0] = 1;
   sum_matrix[1][1] = 0;
   sum_matrix[2][0] = 1;
-  sum_matrix[2][1] = -1;
+  sum_matrix[2][1] = 1;
   sum_matrix[3][0] = 0;
-  sum_matrix[3][1] = -1; 
+  sum_matrix[3][1] = 1; 
 
-  h->bedroom2 = build_beadroom_with_bathroom(matrix, sum_matrix, area_bedroom, 3);
-
+  h->bedroom2 = build_beadroom_with_bathroom(matrix, sum_matrix, (int) ((double)area * 0.1315), pos, 2);
+  
   //quarto com closet  
   list *aux = h->bedroom1->list_vertex;
   int i = 0;
@@ -629,27 +850,20 @@ house *build_house (int area, int pos)
 
   sum_matrix[0][0] = 0;
   sum_matrix[0][1] = 0;
-  sum_matrix[1][0] = 0;
-  sum_matrix[1][1] = -1;
+  sum_matrix[1][0] = -1;
+  sum_matrix[1][1] = 0;
   sum_matrix[2][0] = -1;
-  sum_matrix[2][1] = -1;
-  sum_matrix[3][0] = -1;
-  sum_matrix[3][1] = 0;
-
-  if (area_bedroom > 34000)
-    area_bedroom = 34000;
-
-  h->bedroom = build_beadroom_with_closet(matrix, sum_matrix, area_bedroom);
-
-
+  sum_matrix[2][1] = 1;
+  sum_matrix[3][0] = 0;
+  sum_matrix[3][1] = 1;
+  
+  h->bedroom = build_beadroom_with_closet(matrix, sum_matrix, (int) ((double)area * 0.1315), pos);
 
   //sala de ginastica
-  int area_gym_room = (int) ((double)area * 0.175);
-
   aux = h->bedroom2->list_vertex;
   i = 0;
   
-  while (i != 2)
+  while (i != 1)
   {
     aux = aux->next;
     i += 1;
@@ -670,11 +884,9 @@ house *build_house (int area, int pos)
   sum_matrix[3][0] = -1;
   sum_matrix[3][1] = 0;
 
-  h->gym_room = build_gym_room(matrix, sum_matrix, area_gym_room);
+  h->gym_room = build_gym_room(matrix, sum_matrix, (int) ((double)area * 0.175));
 
   //sala de jantar com cozinha
-  int area_room_with_kitchen = (int) ((double)area * 0.235);
-
   aux = h->gym_room->list_vertex;
   i = 0;
   
@@ -699,11 +911,9 @@ house *build_house (int area, int pos)
   sum_matrix[3][0] = -1;
   sum_matrix[3][1] = 0;
 
-  h->dining_room_with_kitchen = build_dining_room_with_kitchen(matrix, sum_matrix, area_room_with_kitchen);
+  h->dining_room_with_kitchen = build_dining_room_with_kitchen(matrix, sum_matrix, (int) ((double)area * 0.235), pos);
   
   //banheiro social
-  int area_bathroom = (int) ((double)area * 0.0265);
-
   aux = h->dining_room_with_kitchen->list_vertex;
   
   i = 0;
@@ -723,7 +933,7 @@ house *build_house (int area, int pos)
 
   i = 0;
 
-  while (i != 2)
+  while (i != 1)
   {
     aux = aux->next;
     i += 1;
@@ -745,50 +955,7 @@ house *build_house (int area, int pos)
 
   h->social_bathroom = build_bathroom(matrix, sum_matrix, (int) ((double)area * 0.027));
   
-
-  //sala de estar
-  int matrix_room[5][2], sum_matrix_room[5][2];
-
-  matrix_room[0][0] = MAX_SIZE_WINDOW / 2;
-  matrix_room[0][1] = h->bedroom1->list_vertex->y + 100;
-
-  aux = h->bedroom2->list_vertex->next;
-
-  matrix_room[1][0] = aux->x;
-  matrix_room[1][1] = aux->y;
-  matrix_room[2][0] = aux->x;
-  matrix_room[2][1] = aux->y;
-  
-  aux = h->bedroom->list_vertex;
-  i = 0;
-  
-  while (i != 3)
-  {
-    aux = aux->next;
-    i += 1;
-  }
-
-  matrix_room[3][0] = aux->x - 30;
-  matrix_room[3][1] = aux->y;
-  matrix_room[4][0] = aux->x - 30;
-  matrix_room[4][1] = aux->y;
-
-  sum_matrix_room[0][0] = 0;
-  sum_matrix_room[0][1] = 1;
-  sum_matrix_room[1][0] = 0;
-  sum_matrix_room[1][1] = 1;
-  sum_matrix_room[2][0] = 0;
-  sum_matrix_room[2][1] = 0;
-  sum_matrix_room[3][0] = 0;
-  sum_matrix_room[3][1] = 0;
-  sum_matrix_room[4][0] = 0;
-  sum_matrix_room[4][1] = 1;
-
-  h->living_room = build_living_room(matrix_room, sum_matrix_room, (int) ((double)area * 0.265));
-  
-  
   //area de serviço
-
   aux = h->gym_room->list_vertex;
   i = 0;
   
@@ -814,6 +981,53 @@ house *build_house (int area, int pos)
   sum_matrix[3][1] = 0;
 
   h->service_area = build_service_area(matrix, sum_matrix, (int) ((double)area * 0.055));
+
+  //sala de estar
+  int matrix_room[5][2], sum_matrix_room[5][2];
+
+  aux = h->bedroom2->list_vertex;
+  
+  i = 0;
+  
+  while (i != 2)
+  {
+    aux = aux->next;
+    i += 1;
+  }
+
+  matrix_room[0][0] = MAX_SIZE_WINDOW / 2;
+  matrix_room[0][1] = aux->y + 100;
+  matrix_room[1][0] = aux->x;
+  matrix_room[1][1] = aux->y;
+  matrix_room[2][0] = aux->x;
+  matrix_room[2][1] = aux->y;
+  
+  aux = h->bedroom->list_vertex;
+  i = 0;
+  
+  while (i != 2)
+  {
+    aux = aux->next;
+    i += 1;
+  }
+
+  matrix_room[3][0] = aux->x - 30;
+  matrix_room[3][1] = aux->y;
+  matrix_room[4][0] = aux->x - 30;
+  matrix_room[4][1] = aux->y;
+
+  sum_matrix_room[0][0] = 0;
+  sum_matrix_room[0][1] = 1;
+  sum_matrix_room[1][0] = 0;
+  sum_matrix_room[1][1] = 1;
+  sum_matrix_room[2][0] = 0;
+  sum_matrix_room[2][1] = 0;
+  sum_matrix_room[3][0] = 0;
+  sum_matrix_room[3][1] = 0;
+  sum_matrix_room[4][0] = 0;
+  sum_matrix_room[4][1] = 1;
+
+  h->living_room = build_living_room(matrix_room, sum_matrix_room, (int) ((double)area * 0.265));
 
   //area da casa
   int matrix_area_house[6][2], sum_matrix_area_house[6][2];
@@ -879,92 +1093,914 @@ house *build_house (int area, int pos)
 
   h->area = build_area_house(matrix_area_house, sum_matrix_area_house, area);
 
-  aux = h->area;
-
-  while (aux != NULL)
-  {
-    printf("(x,y) = (%d,%d)\n", aux->x, aux->y);
-    aux = aux->next;
-  }
-
-/*
-  if (pos == 1)
-  {
-    printf("%d", (int)((double) area * 0.25));
-    int x0 = MAX_SIZE_WINDOW/2, x1 = MAX_SIZE_WINDOW/2, x2 = MAX_SIZE_WINDOW/2, x3 = MAX_SIZE_WINDOW/2, x4 = MAX_SIZE_WINDOW/2, x5 = MAX_SIZE_WINDOW/2;
-    int y0 = MAX_SIZE_WINDOW/2 + 100, y1 = MAX_SIZE_WINDOW/2, y2 = MAX_SIZE_WINDOW/2, y3 = MAX_SIZE_WINDOW/2 - 100, y4 = MAX_SIZE_WINDOW/2, y5 = MAX_SIZE_WINDOW/2;
-
-    int d1 = ((x1*y2 + x2*y3 + x2*y4 + x4*y1) - (x1*y2 + x3*y2 + x4*y3 + x1*y4));
-    int d2 = ((x0*y1 + x1*y5 + x5*y0) - (x1*y0 + x5*y1 + x0*y5));
-    int d3 = ((x3*y2 + x2*y4 + x4*y3) - (x2*y3 + x4*y2 + x3*y4));
-
-    int i = 0;
-  
-    while (d1 + d2 + d3 < area)
-    {
-      if (i % 2 == 0)
-      {
-        y1 += 1;
-        y2 -= 1;
-        y5 += 1;
-        y4 -= 1;
-        y0 += 1;
-      }
-      else if (i % 2 == 1)
-      {
-        x1 += 1;
-        x2 += 1;
-        x4 -= 1;
-        x5 -= 1;
-        y3 -= 1;
-      }
-
-      d1 = ((x1*y2 + x2*y4 + x4*y5 + x5*y1) - (x2*y1 + x4*y2 + x5*y4 + x1*y5)) / 2;
-      d3 = ((x3*y2 + x2*y4 + x4*y3) - (x2*y3 + x4*y2 + x3*y4)) / 2;
-      d2 = ((x0*y1 + x1*y5 + x5*y0) - (x1*y0 + x5*y1 + x0*y5)) / 2;
-
-      if (d2 < 0)
-        d2 *= (-1);
-
-      if (d3 < 0)
-        d3 *= (-1);
-
-      if (d1 < 0)
-        d1 *= (-1);
-
-      i += 1;
-    }
-    
-      printf("d1 = %d, d2 = %d, d3 = %d, soma = %d, area = %d\n", d1, d2, d3, d1+d2+d3, area);
-      printf("(x0, y0) = (%d,%d)\n", x0, y0);
-      printf("(x1, y1) = (%d,%d)\n", x1, y1);
-      printf("(x2, y2) = (%d,%d)\n", x2, y2);
-      printf("(x3, y3) = (%d,%d)\n", x3, y3);
-      printf("(x4, y4) = (%d,%d)\n", x4, y4);
-      printf("(x5, y5) = (%d,%d)\n", x5, y5);
-
-      head = add_vertex(x0, y0, head);
-      head = add_vertex(x1, y1, head);
-      head = add_vertex(x2, y2, head);
-      head = add_vertex(x3, y3, head);
-      head = add_vertex(x4, y4, head);
-      head = add_vertex(x5, y5, head);
-      head = add_vertex(x0, y0, head);
-
   }
   else if (pos == 2)
   {
-    printf("test\n");
+    //primeiro quarto com banheiro _
+    int matrix[4][2], sum_matrix[4][2];
+
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = MAX_SIZE_WINDOW / 2;
+      matrix[i][1] = MAX_SIZE_WINDOW / 2;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = -1;
+    sum_matrix[1][0] = 2;
+    sum_matrix[1][1] = -1;
+    sum_matrix[2][0] = 2;
+    sum_matrix[2][1] = 1;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = 1; 
+
+    h->bedroom1 = build_beadroom_with_bathroom(matrix, sum_matrix, (int) ((double)area * 0.1315), pos, 1);
+
+    //segundo quarto com banheiro 
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = h->bedroom1->list_vertex->x;
+      matrix[i][1] = h->bedroom1->list_vertex->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = -1;
+    sum_matrix[2][0] = 1;
+    sum_matrix[2][1] = -1;
+    sum_matrix[3][0] = 1;
+    sum_matrix[3][1] = 0; 
+
+    h->bedroom2 = build_beadroom_with_bathroom(matrix, sum_matrix, (int) ((double)area * 0.1315), pos, 2);
+    
+    //quarto com closet  
+    list *aux = h->bedroom1->list_vertex;
+    int i = 0;
+    
+    while (i != 3)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+    
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = aux->x;
+      matrix[i][1] = aux->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = 1;
+    sum_matrix[2][0] = 1;
+    sum_matrix[2][1] = 1;
+    sum_matrix[3][0] = 1;
+    sum_matrix[3][1] = 0;
+    
+    h->bedroom = build_beadroom_with_closet(matrix, sum_matrix, (int) ((double)area * 0.1315), pos);
+  
+    //sala de ginastica
+    aux = h->bedroom2->list_vertex;
+    i = 0;
+    
+    while (i != 1)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = aux->x;
+      matrix[i][1] = aux->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = -1;
+    sum_matrix[1][1] = 0;
+    sum_matrix[2][0] = -1;
+    sum_matrix[2][1] = 1;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = 1;
+
+    h->gym_room = build_gym_room(matrix, sum_matrix, (int) ((double)area * 0.175));
+
+    //sala de jantar com cozinha
+    aux = h->gym_room->list_vertex;
+    i = 0;
+    
+    while (i != 3)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = aux->x;
+      matrix[i][1] = aux->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = 1;
+    sum_matrix[2][0] = -1;
+    sum_matrix[2][1] = 1;
+    sum_matrix[3][0] = -1;
+    sum_matrix[3][1] = 0;
+
+    h->dining_room_with_kitchen = build_dining_room_with_kitchen(matrix, sum_matrix, (int) ((double)area * 0.235), pos);
+
+    //banheiro social
+    aux = h->dining_room_with_kitchen->list_vertex;
+    
+    i = 0;
+
+    while (i != 1)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix[0][0] = aux->x;
+    matrix[0][1] = aux->y;
+    matrix[3][0] = aux->x;
+    matrix[3][1] = aux->y;
+    
+    aux = h->bedroom->list_vertex;
+
+    i = 0;
+
+    while (i != 1)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix[1][0] = aux->x;
+    matrix[1][1] = aux->y;
+    matrix[2][0] = aux->x;
+    matrix[2][1] = aux->y;
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = 0;
+    sum_matrix[2][0] = -1;
+    sum_matrix[2][1] = 0;
+    sum_matrix[3][0] = -1;
+    sum_matrix[3][1] = 0;
+
+    h->social_bathroom = build_bathroom(matrix, sum_matrix, (int) ((double)area * 0.027));
+    
+    //area de serviço
+    aux = h->gym_room->list_vertex;
+    i = 0;
+    
+    while (i != 2)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+    
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = aux->x;
+      matrix[i][1] = aux->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = -2;
+    sum_matrix[2][0] = -1;
+    sum_matrix[2][1] = -2;
+    sum_matrix[3][0] = -1;
+    sum_matrix[3][1] = 0;
+
+    h->service_area = build_service_area(matrix, sum_matrix, (int) ((double)area * 0.055));
+
+    //sala de estar
+    int matrix_room[5][2], sum_matrix_room[5][2];
+
+    aux = h->bedroom2->list_vertex;
+    
+    i = 0;
+    
+    while (i != 2)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_room[0][0] = aux->x + 100;
+    matrix_room[0][1] = MAX_SIZE_WINDOW / 2;
+    matrix_room[1][0] = aux->x;
+    matrix_room[1][1] = aux->y;
+    matrix_room[2][0] = aux->x;
+    matrix_room[2][1] = aux->y;
+    
+    aux = h->bedroom->list_vertex;
+    i = 0;
+    
+    while (i != 2)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_room[3][0] = aux->x;
+    matrix_room[3][1] = aux->y + 30;
+    matrix_room[4][0] = aux->x;
+    matrix_room[4][1] = aux->y + 30;
+
+    sum_matrix_room[0][0] = 1;
+    sum_matrix_room[0][1] = 0;
+    sum_matrix_room[1][0] = 1;
+    sum_matrix_room[1][1] = 0;
+    sum_matrix_room[2][0] = 0;
+    sum_matrix_room[2][1] = 0;
+    sum_matrix_room[3][0] = 0;
+    sum_matrix_room[3][1] = 0;
+    sum_matrix_room[4][0] = 1;
+    sum_matrix_room[4][1] = 0;
+
+    h->living_room = build_living_room(matrix_room, sum_matrix_room, (int) ((double)area * 0.265));
+  
+    //area da casa
+    int matrix_area_house[6][2], sum_matrix_area_house[6][2];
+
+    matrix_area_house[0][0] = h->living_room->list_vertex->x;
+    matrix_area_house[0][1] = h->living_room->list_vertex->y;
+
+    aux = h->living_room->list_vertex;
+    i = 0;
+    
+    while (i != 1)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_area_house[1][0] = aux->x;
+    matrix_area_house[1][1] = aux->y;
+    
+    aux = h->living_room->list_vertex;
+    i = 0;
+    
+    while (i != 4)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_area_house[5][0] = aux->x;
+    matrix_area_house[5][1] = aux->y;
+    matrix_area_house[4][1] = matrix_area_house[5][1];
+    matrix_area_house[2][1] = matrix_room[1][1];
+
+    aux = h->service_area->list_vertex;
+    i = 0;
+    
+    while (i != 2)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_area_house[2][0] = aux->x;
+    matrix_area_house[4][0] = matrix_area_house[2][0];
+
+    matrix_area_house[3][0] = aux->x - 100;
+    matrix_area_house[3][1] = MAX_SIZE_WINDOW / 2;
+
+
+    sum_matrix_area_house[0][0] = 0;
+    sum_matrix_area_house[0][1] = 0;
+    sum_matrix_area_house[1][0] = 0;
+    sum_matrix_area_house[1][1] = 0;
+    sum_matrix_area_house[2][0] = -1;
+    sum_matrix_area_house[2][1] = 0;
+    sum_matrix_area_house[3][0] = -1;
+    sum_matrix_area_house[3][1] = 0;
+    sum_matrix_area_house[4][0] = -1;
+    sum_matrix_area_house[4][1] = 0;
+    sum_matrix_area_house[5][0] = 0;
+    sum_matrix_area_house[5][1] = 0;
+
+    h->area = build_area_house(matrix_area_house, sum_matrix_area_house, area);
+    
   }
   else if (pos == 3)
   {
-    printf("test\n");
+    //primeiro quarto com banheiro _
+    int matrix[4][2], sum_matrix[4][2];
+
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = MAX_SIZE_WINDOW / 2;
+      matrix[i][1] = MAX_SIZE_WINDOW / 2;
+    }
+
+    sum_matrix[0][0] = -1;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 1;
+    sum_matrix[1][1] = 0;
+    sum_matrix[2][0] = 1;
+    sum_matrix[2][1] = -2;
+    sum_matrix[3][0] = -1;
+    sum_matrix[3][1] = -2; 
+
+    h->bedroom1 = build_beadroom_with_bathroom(matrix, sum_matrix, (int) ((double)area * 0.1315), pos, 1);
+
+    //segundo quarto com banheiro 
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = h->bedroom1->list_vertex->x;
+      matrix[i][1] = h->bedroom1->list_vertex->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = -1;
+    sum_matrix[1][1] = 0;
+    sum_matrix[2][0] = -1;
+    sum_matrix[2][1] = -1;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = -1; 
+
+    h->bedroom2 = build_beadroom_with_bathroom(matrix, sum_matrix, (int) ((double)area * 0.1315), pos, 2);
+    
+    
+    //quarto com closet  
+    list *aux = h->bedroom1->list_vertex;
+    int i = 0;
+    
+    while (i != 1)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+    
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = aux->x;
+      matrix[i][1] = aux->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 1;
+    sum_matrix[1][1] = 0;
+    sum_matrix[2][0] = 1;
+    sum_matrix[2][1] = -1;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = -1;
+    
+    h->bedroom = build_beadroom_with_closet(matrix, sum_matrix, (int) ((double)area * 0.1315), pos);
+
+    
+    //sala de ginastica
+    aux = h->bedroom2->list_vertex;
+    i = 0;
+    
+    while (i != 1)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = aux->x;
+      matrix[i][1] = aux->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = 1;
+    sum_matrix[2][0] = 1;
+    sum_matrix[2][1] = 1;
+    sum_matrix[3][0] = 1;
+    sum_matrix[3][1] = 0;
+
+    h->gym_room = build_gym_room(matrix, sum_matrix, (int) ((double)area * 0.175));
+
+    
+    //sala de jantar com cozinha
+    aux = h->gym_room->list_vertex;
+    i = 0;
+    
+    while (i != 3)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = aux->x;
+      matrix[i][1] = aux->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = 1;
+    sum_matrix[2][0] = 1;
+    sum_matrix[2][1] = 1;
+    sum_matrix[3][0] = 1;
+    sum_matrix[3][1] = 0;
+
+    h->dining_room_with_kitchen = build_dining_room_with_kitchen(matrix, sum_matrix, (int) ((double)area * 0.235), pos);
+    
+    //banheiro social
+    aux = h->dining_room_with_kitchen->list_vertex;
+    
+    i = 0;
+
+    while (i != 3)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix[0][0] = aux->x;
+    matrix[0][1] = aux->y;
+    matrix[1][0] = aux->x;
+    matrix[1][1] = aux->y;
+    
+    aux = h->bedroom->list_vertex;
+
+    i = 0;
+
+    while (i != 1)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix[2][0] = aux->x;
+    matrix[2][1] = aux->y;
+    matrix[3][0] = aux->x;
+    matrix[3][1] = aux->y;
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = 1;
+    sum_matrix[2][0] = 0;
+    sum_matrix[2][1] = 1;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = 0;
+
+    h->social_bathroom = build_bathroom(matrix, sum_matrix, (int) ((double)area * 0.027));
+    
+    //area de serviço
+    aux = h->gym_room->list_vertex;
+    i = 0;
+    
+    while (i != 2)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+    
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = aux->x;
+      matrix[i][1] = aux->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = 1;
+    sum_matrix[2][0] = -2;
+    sum_matrix[2][1] = 1;
+    sum_matrix[3][0] = -2;
+    sum_matrix[3][1] = 0;
+
+    h->service_area = build_service_area(matrix, sum_matrix, (int) ((double)area * 0.055));
+
+    //sala de estar
+    int matrix_room[5][2], sum_matrix_room[5][2];
+
+    aux = h->bedroom2->list_vertex;
+    
+    i = 0;
+    
+    while (i != 2)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_room[0][0] = MAX_SIZE_WINDOW / 2;
+    matrix_room[0][1] = aux->y - 100;
+    matrix_room[1][0] = aux->x;
+    matrix_room[1][1] = aux->y;
+    matrix_room[2][0] = aux->x;
+    matrix_room[2][1] = aux->y;
+    
+    aux = h->bedroom->list_vertex;
+    i = 0;
+    
+    while (i != 2)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_room[3][0] = aux->x + 30;
+    matrix_room[3][1] = aux->y;
+    matrix_room[4][0] = aux->x + 30;
+    matrix_room[4][1] = aux->y;
+
+    sum_matrix_room[0][0] = 0;
+    sum_matrix_room[0][1] = -1;
+    sum_matrix_room[1][0] = 0;
+    sum_matrix_room[1][1] = -1;
+    sum_matrix_room[2][0] = 0;
+    sum_matrix_room[2][1] = 0;
+    sum_matrix_room[3][0] = 0;
+    sum_matrix_room[3][1] = 0;
+    sum_matrix_room[4][0] = 0;
+    sum_matrix_room[4][1] = -1;
+
+    h->living_room = build_living_room(matrix_room, sum_matrix_room, (int) ((double)area * 0.265));
+
+    //area da casa
+    int matrix_area_house[6][2], sum_matrix_area_house[6][2];
+
+    matrix_area_house[0][0] = h->living_room->list_vertex->x;
+    matrix_area_house[0][1] = h->living_room->list_vertex->y;
+
+    aux = h->living_room->list_vertex;
+    i = 0;
+    
+    while (i != 1)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_area_house[1][0] = aux->x;
+    matrix_area_house[1][1] = aux->y;
+    
+    aux = h->living_room->list_vertex;
+    i = 0;
+    
+    while (i != 4)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_area_house[5][0] = aux->x;
+    matrix_area_house[5][1] = aux->y;
+
+    matrix_area_house[2][0] = matrix_room[1][0];
+
+    aux = h->service_area->list_vertex;
+    i = 0;
+    
+    while (i != 2)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_area_house[2][1] = aux->y;
+
+    matrix_area_house[3][0] = MAX_SIZE_WINDOW / 2;
+    matrix_area_house[3][1] = aux->y + 100;
+
+    matrix_area_house[4][0] = matrix_area_house[5][0];
+    matrix_area_house[4][1] = aux->y;
+
+    sum_matrix_area_house[0][0] = 0;
+    sum_matrix_area_house[0][1] = 0;
+    sum_matrix_area_house[1][0] = 0;
+    sum_matrix_area_house[1][1] = 0;
+    sum_matrix_area_house[2][0] = 0;
+    sum_matrix_area_house[2][1] = 1;
+    sum_matrix_area_house[3][0] = 0;
+    sum_matrix_area_house[3][1] = 1;
+    sum_matrix_area_house[4][0] = 0;
+    sum_matrix_area_house[4][1] = 1;
+    sum_matrix_area_house[5][0] = 0;
+    sum_matrix_area_house[5][1] = 0;
+
+    h->area = build_area_house(matrix_area_house, sum_matrix_area_house, area);
   }
   else if (pos == 4)
   {
-    printf("test\n");
+     //primeiro quarto com banheiro _
+    int matrix[4][2], sum_matrix[4][2];
+
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = MAX_SIZE_WINDOW / 2;
+      matrix[i][1] = MAX_SIZE_WINDOW / 2;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 1;
+    sum_matrix[1][0] = -2;
+    sum_matrix[1][1] = 1;
+    sum_matrix[2][0] = -2;
+    sum_matrix[2][1] = -1;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = -1; 
+
+    h->bedroom1 = build_beadroom_with_bathroom(matrix, sum_matrix, (int) ((double)area * 0.1315), pos, 1);
+  
+    //segundo quarto com banheiro 
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = h->bedroom1->list_vertex->x;
+      matrix[i][1] = h->bedroom1->list_vertex->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = 1;
+    sum_matrix[2][0] = -1;
+    sum_matrix[2][1] = 1;
+    sum_matrix[3][0] = -1;
+    sum_matrix[3][1] = 0; 
+
+    h->bedroom2 = build_beadroom_with_bathroom(matrix, sum_matrix, (int) ((double)area * 0.1315), pos, 2);
+    
+    //quarto com closet  
+    list *aux = h->bedroom1->list_vertex;
+    int i = 0;
+    
+    while (i != 3)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+    
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = aux->x;
+      matrix[i][1] = aux->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = -1;
+    sum_matrix[1][1] = 0;
+    sum_matrix[2][0] = -1;
+    sum_matrix[2][1] = -1;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = -1;
+    
+    h->bedroom = build_beadroom_with_closet(matrix, sum_matrix, (int) ((double)area * 0.1315), pos);
+    
+    //sala de ginastica
+    aux = h->bedroom2->list_vertex;
+    i = 0;
+    
+    while (i != 1)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = aux->x;
+      matrix[i][1] = aux->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 1;
+    sum_matrix[1][1] = 0;
+    sum_matrix[2][0] = 1;
+    sum_matrix[2][1] = -1;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = -1;
+
+    h->gym_room = build_gym_room(matrix, sum_matrix, (int) ((double)area * 0.175));
+    
+    
+    //sala de jantar com cozinha
+    aux = h->gym_room->list_vertex;
+    i = 0;
+    
+    while (i != 3)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = aux->x;
+      matrix[i][1] = aux->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = -1;
+    sum_matrix[2][0] = 1;
+    sum_matrix[2][1] = -1;
+    sum_matrix[3][0] = 1;
+    sum_matrix[3][1] = 0;
+
+    h->dining_room_with_kitchen = build_dining_room_with_kitchen(matrix, sum_matrix, (int) ((double)area * 0.235), pos);
+    
+    //banheiro social
+    aux = h->dining_room_with_kitchen->list_vertex;
+    
+    i = 0;
+
+    while (i != 1)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix[0][0] = aux->x;
+    matrix[0][1] = aux->y;
+    matrix[3][0] = aux->x;
+    matrix[3][1] = aux->y;
+    
+    aux = h->bedroom->list_vertex;
+
+    i = 0;
+
+    while (i != 3)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix[1][0] = aux->x;
+    matrix[1][1] = aux->y;
+    matrix[2][0] = aux->x;
+    matrix[2][1] = aux->y;
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 0;
+    sum_matrix[1][1] = 0;
+    sum_matrix[2][0] = 1;
+    sum_matrix[2][1] = 0;
+    sum_matrix[3][0] = 1;
+    sum_matrix[3][1] = 0;
+
+    h->social_bathroom = build_bathroom(matrix, sum_matrix, (int) ((double)area * 0.027));
+  
+    //area de serviço
+    aux = h->gym_room->list_vertex;
+    i = 0;
+    
+    while (i != 2)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+    
+    for (int i = 0; i < 4; i++)
+    {
+      matrix[i][0] = aux->x;
+      matrix[i][1] = aux->y;
+    }
+
+    sum_matrix[0][0] = 0;
+    sum_matrix[0][1] = 0;
+    sum_matrix[1][0] = 1;
+    sum_matrix[1][1] = 0;
+    sum_matrix[2][0] = 1;
+    sum_matrix[2][1] = 2;
+    sum_matrix[3][0] = 0;
+    sum_matrix[3][1] = 2;
+
+    h->service_area = build_service_area(matrix, sum_matrix, (int) ((double)area * 0.055));
+
+    //sala de estar
+    int matrix_room[5][2], sum_matrix_room[5][2];
+
+    aux = h->bedroom2->list_vertex;
+    
+    i = 0;
+    
+    while (i != 2)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_room[0][0] = aux->x - 100;
+    matrix_room[0][1] = MAX_SIZE_WINDOW / 2;
+    matrix_room[1][0] = aux->x;
+    matrix_room[1][1] = aux->y;
+    matrix_room[2][0] = aux->x;
+    matrix_room[2][1] = aux->y;
+    
+    aux = h->bedroom->list_vertex;
+    i = 0;
+    
+    while (i != 2)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_room[3][0] = aux->x;
+    matrix_room[3][1] = aux->y - 30;
+    matrix_room[4][0] = aux->x;
+    matrix_room[4][1] = aux->y - 30;
+
+    sum_matrix_room[0][0] = -1;
+    sum_matrix_room[0][1] = 0;
+    sum_matrix_room[1][0] = -1;
+    sum_matrix_room[1][1] = 0;
+    sum_matrix_room[2][0] = 0;
+    sum_matrix_room[2][1] = 0;
+    sum_matrix_room[3][0] = 0;
+    sum_matrix_room[3][1] = 0;
+    sum_matrix_room[4][0] = -1;
+    sum_matrix_room[4][1] = 0;
+
+    h->living_room = build_living_room(matrix_room, sum_matrix_room, (int) ((double)area * 0.265));
+  
+    //area da casa
+    int matrix_area_house[6][2], sum_matrix_area_house[6][2];
+
+    matrix_area_house[0][0] = h->living_room->list_vertex->x;
+    matrix_area_house[0][1] = h->living_room->list_vertex->y;
+
+    aux = h->living_room->list_vertex;
+    i = 0;
+    
+    while (i != 1)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_area_house[1][0] = aux->x;
+    matrix_area_house[1][1] = aux->y;
+    
+    aux = h->living_room->list_vertex;
+    i = 0;
+    
+    while (i != 4)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_area_house[5][0] = aux->x;
+    matrix_area_house[5][1] = aux->y;
+    matrix_area_house[4][1] = matrix_area_house[5][1];
+    matrix_area_house[2][1] = matrix_room[1][1];
+
+    aux = h->service_area->list_vertex;
+    i = 0;
+    
+    while (i != 2)
+    {
+      aux = aux->next;
+      i += 1;
+    }
+
+    matrix_area_house[2][0] = aux->x;
+    matrix_area_house[4][0] = matrix_area_house[2][0];
+
+    matrix_area_house[3][0] = aux->x + 100;
+    matrix_area_house[3][1] = MAX_SIZE_WINDOW / 2;
+
+
+    sum_matrix_area_house[0][0] = 0;
+    sum_matrix_area_house[0][1] = 0;
+    sum_matrix_area_house[1][0] = 0;
+    sum_matrix_area_house[1][1] = 0;
+    sum_matrix_area_house[2][0] = -1;
+    sum_matrix_area_house[2][1] = 0;
+    sum_matrix_area_house[3][0] = -1;
+    sum_matrix_area_house[3][1] = 0;
+    sum_matrix_area_house[4][0] = -1;
+    sum_matrix_area_house[4][1] = 0;
+    sum_matrix_area_house[5][0] = 0;
+    sum_matrix_area_house[5][1] = 0;
+
+    h->area = build_area_house(matrix_area_house, sum_matrix_area_house, area);
+    
   }
-*/
 
   return h;
 }
@@ -973,48 +2009,26 @@ void display(house *h)
 { 
   glClear(GL_COLOR_BUFFER_BIT);
 
-  glBegin(GL_LINE_STRIP);
-
   if (h->bedroom1 != NULL)
   {
     print_lines_vertices(h->bedroom1->list_vertex);
     print_lines_vertices(h->bedroom1->bathroom->list_vertex);
   }
-  
-  glEnd();
-  glFlush();
-
-  glBegin(GL_LINE_STRIP);
 
   if (h->bedroom2 != NULL)
   {
     print_lines_vertices(h->bedroom2->list_vertex);
     print_lines_vertices(h->bedroom2->bathroom->list_vertex);
   }
-  
-  glEnd();
-  glFlush();
-  
-
-  glBegin(GL_LINE_STRIP);
 
   if (h->bedroom != NULL)
   {
     print_lines_vertices(h->bedroom->list_vertex);
     print_lines_vertices(h->bedroom->closet->list_vertex);
   }
-  glEnd();
-  glFlush();
-
-  glBegin(GL_LINE_STRIP);
 
   if (h->gym_room != NULL)
     print_lines_vertices(h->gym_room->list_vertex);
-  
-  glEnd();
-  glFlush();
-
-  glBegin(GL_LINE_STRIP);
 
   if (h->dining_room_with_kitchen != NULL)
   {
@@ -1022,56 +2036,49 @@ void display(house *h)
     print_lines_vertices(h->dining_room_with_kitchen->kitchen->list_vertex);
   }
   
-  glEnd();
-  glFlush();
-
-  glBegin(GL_LINE_STRIP);
-  
   if (h->living_room != NULL)
     print_lines_vertices(h->living_room->list_vertex);
-  
-  glEnd();
-  glFlush();
-
-  glBegin(GL_LINE_STRIP);
   
   if (h->social_bathroom != NULL)
     print_lines_vertices(h->social_bathroom->list_vertex);
   
-  glEnd();
-  glFlush();
-
-  glBegin(GL_LINE_STRIP);
-  
   if (h->area != NULL)
     print_lines_vertices(h->area);
-  
-  glEnd();
-  glFlush();
-  
-  glBegin(GL_LINE_STRIP);
-  
+
   if (h->service_area != NULL)
     print_lines_vertices(h->service_area->list_vertex);
-  
-  glEnd();
-  glFlush();
 
 }
 
 int main(int argc, char **argv)
 {
-  int area;
+  int area, pos;
 
   while (1)
   {
-    printf("Digite a area da casa (area >= 135000 && area <= 250000): ");
+    printf("\nDigite a area da casa (area >= 130000 && area <= 250000): ");
     scanf("%d", &area);
     
     if(area >= 130000 && area <= 250000)
       break;
 
     printf("Valor da area nao esta no intervalo.\n\n");
+  }
+
+  while (1)
+  {
+    printf("\nMenu:\n");
+    printf("1 - Norte para cima;\n");
+    printf("2 - Norte para direita;\n");
+    printf("3 - Norte para baixo;\n");
+    printf("4 - Norte para esquerda;\n");
+    printf("Digite uma opcao para definir o norte: ");
+    scanf("%d", &pos);
+    
+    if(pos >= 1 && pos <= 4)
+      break;
+
+    printf("Digite uma opcao valida!\n\n");
   }
 
   glutInit(&argc, argv);
@@ -1081,7 +2088,7 @@ int main(int argc, char **argv)
   glutCreateWindow("Planta baixa de casa");
   gluOrtho2D(0.0, MAX_SIZE_WINDOW, 0.0, MAX_SIZE_WINDOW);
 
-  house *h = build_house(area, 1);
+  house *h = build_house(area, pos);
   display(h);
   
   glutMainLoop();
