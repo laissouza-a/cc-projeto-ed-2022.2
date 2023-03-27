@@ -27,4 +27,4 @@ Executar o programa
 + 2 quartos com banheiro - [15, 38] m²
 + 1 quartos com closet - [15, 34] m²
 + **Obs.:** todos deve conter pelo menos uma porta e uma janela. Além de uma porta para área externa
-+ **Obs.:** Intervalo da area [130, 250] m² 
++ **Obs.:** Intervalo da area da casa [290, 350] m² aproximadamente 

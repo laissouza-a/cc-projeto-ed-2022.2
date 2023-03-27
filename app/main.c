@@ -2133,7 +2133,7 @@ int main(int argc, char **argv)
   glutCreateWindow("Planta baixa de casa");
   gluOrtho2D(0.0, MAX_SIZE_WINDOW, 0.0, MAX_SIZE_WINDOW);
 
-  house *h = build_house((int) ((double)area *0.50) , pos);
+  house *h = build_house((int) ((double)area *0.4) , pos);
   display(h);
   create_terreno(area);
   
