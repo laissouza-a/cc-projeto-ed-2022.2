@@ -203,6 +203,8 @@ list *build_area_house (int matrix[][2], int sum_matrix[][2], int area)
 
   int area_end = search_of_area_size(matrix, sum_matrix, 6, area);
 
+  printf("area da casa = %d\n", area_end);
+
   for (int i = 0; i < 6; i++)
   {
     l = add_vertex(matrix[i][0], matrix[i][1], l);
@@ -1083,11 +1085,11 @@ house *build_house (int area, int pos)
   sum_matrix_area_house[1][0] = 0;
   sum_matrix_area_house[1][1] = 0;
   sum_matrix_area_house[2][0] = 0;
-  sum_matrix_area_house[2][1] = 1;
+  sum_matrix_area_house[2][1] = 0;
   sum_matrix_area_house[3][0] = 0;
-  sum_matrix_area_house[3][1] = 1;
+  sum_matrix_area_house[3][1] = 0;
   sum_matrix_area_house[4][0] = 0;
-  sum_matrix_area_house[4][1] = 1;
+  sum_matrix_area_house[4][1] = 0;
   sum_matrix_area_house[5][0] = 0;
   sum_matrix_area_house[5][1] = 0;
 
@@ -2005,6 +2007,46 @@ house *build_house (int area, int pos)
   return h;
 }
 
+void create_terreno (int area)
+{
+
+  int matrix[4][2], sum_matrix[4][2];
+
+  for (int i = 0; i < 4; i++)
+  {
+    matrix[i][0] = MAX_SIZE_WINDOW / 2;
+    matrix[i][1] = MAX_SIZE_WINDOW / 2;
+  }
+
+  sum_matrix[0][0] = 1;
+  sum_matrix[0][1] = 1;
+  sum_matrix[1][0] = 1;
+  sum_matrix[1][1] = -1;
+  sum_matrix[2][0] = -1;
+  sum_matrix[2][1] = -1;
+  sum_matrix[3][0] = -1;
+  sum_matrix[3][1] = 1; 
+
+  int a = search_of_area_size(matrix, sum_matrix, 4, area);
+
+  printf("area do terreno = %d\n", area);
+
+  glBegin(GL_LINE_STRIP);
+  
+  for (int i = 0; i < 4; i++)
+  {
+    glVertex2i(matrix[i][0], matrix[i][1]);
+
+    if (i + 1 == 4)
+      glVertex2i(matrix[0][0], matrix[0][1]);
+
+  }
+
+  glEnd();
+  glFlush();
+  
+}
+
 void display(house *h)
 { 
   glClear(GL_COLOR_BUFFER_BIT);
@@ -2050,16 +2092,19 @@ void display(house *h)
 
 }
 
+
+
 int main(int argc, char **argv)
 {
   int area, pos;
 
   while (1)
   {
-    printf("\nDigite a area da casa (area >= 130000 && area <= 250000): ");
+    printf("\n 1 metro quadrado equivale a 1000");
+    printf("\nDigite a area do terreno (area >= 500000 && area <= 700000): ");
     scanf("%d", &area);
     
-    if(area >= 130000 && area <= 250000)
+    if(area >= 500000 && area <= 700000)
       break;
 
     printf("Valor da area nao esta no intervalo.\n\n");
@@ -2088,8 +2133,9 @@ int main(int argc, char **argv)
   glutCreateWindow("Planta baixa de casa");
   gluOrtho2D(0.0, MAX_SIZE_WINDOW, 0.0, MAX_SIZE_WINDOW);
 
-  house *h = build_house(area, pos);
+  house *h = build_house((int) ((double)area *0.50) , pos);
   display(h);
+  create_terreno(area);
   
   glutMainLoop();
 
