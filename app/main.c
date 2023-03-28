@@ -866,8 +866,7 @@ house *build_house (int area, int pos)
 
   h->bedroom1 = build_beadroom_with_bathroom(matrix, sum_matrix, (int) ((double)area * 0.1315), pos, 1);
 
-  //quarto
-  //pegando o ponto médio da porta
+  //pegando o ponto médio da porta - quarto
   list *aux = h->bedroom1->list_vertex;
   int i = 0;
   
@@ -895,7 +894,7 @@ house *build_house (int area, int pos)
   h->bedroom1->door_x /= 2;
   h->bedroom1->door_y /= 2;
 
-  //pegando o ponto medio para janela
+  //pegando o ponto medio para janela - quarto
   aux = h->bedroom1->list_vertex;
   i = 0;
 
@@ -932,8 +931,7 @@ house *build_house (int area, int pos)
   h->bedroom1->window_x /= 2;
   h->bedroom1->window_y /= 2;
 
-  //banheiro do quarto
-  //pegando o ponto médio da porta
+  //pegando o ponto médio da porta - banheiro do quarto
   aux = h->bedroom1->bathroom->list_vertex;
   i = 0;
   
@@ -961,7 +959,7 @@ house *build_house (int area, int pos)
   h->bedroom1->bathroom->door_x /= 2;
   h->bedroom1->bathroom->door_y /= 2;
 
-  //pegando o ponto medio para janela
+  //pegando o ponto medio para janela - banheiro do quarto
   aux = h->bedroom1->bathroom->list_vertex;
   i = 0;
 
@@ -1008,8 +1006,7 @@ house *build_house (int area, int pos)
 
   h->bedroom2 = build_beadroom_with_bathroom(matrix, sum_matrix, (int) ((double)area * 0.1315), pos, 2);
   
-  //quarto
-  //pegando o ponto médio da porta
+  //pegando o ponto médio da porta - quarto
   aux = h->bedroom2->list_vertex;
   i = 0;
   
@@ -1037,7 +1034,7 @@ house *build_house (int area, int pos)
   h->bedroom2->door_x /= 2;
   h->bedroom2->door_y /= 2;
 
-  //pegando o ponto medio para janela
+  //pegando o ponto medio para janela - quarto
   aux = h->bedroom2->list_vertex;
   i = 0;
 
@@ -1065,8 +1062,7 @@ house *build_house (int area, int pos)
   h->bedroom2->window_x /= 2;
   h->bedroom2->window_y /= 2;
 
-  //banheiro do quarto
-  //pegando o ponto médio da porta
+  //pegando o ponto médio da porta - banheiro do quarto
   aux = h->bedroom2->bathroom->list_vertex;
   i = 0;
   
@@ -1094,7 +1090,7 @@ house *build_house (int area, int pos)
   h->bedroom2->bathroom->door_x /= 2;
   h->bedroom2->bathroom->door_y /= 2;
 
-  //pegando o ponto medio para janela
+  //pegando o ponto medio para janela - banheiro do quarto
   aux = h->bedroom2->bathroom->list_vertex;
   i = 0;
 
@@ -1265,7 +1261,6 @@ house *build_house (int area, int pos)
       h->bedroom->closet->window_x += aux->x;
       h->bedroom->closet->window_y += aux->y;
     }
-
 
     i += 1;
     aux = aux->next;
@@ -1682,6 +1677,8 @@ house *build_house (int area, int pos)
   matrix_room[1][1] = aux->y;
   matrix_room[2][0] = aux->x;
   matrix_room[2][1] = aux->y;
+  matrix_room[3][1] = aux->y;
+  matrix_room[4][1] = aux->y;
   
   aux = h->bedroom->list_vertex;
   i = 0;
@@ -1693,9 +1690,7 @@ house *build_house (int area, int pos)
   }
 
   matrix_room[3][0] = aux->x - 30;
-  matrix_room[3][1] = aux->y;
   matrix_room[4][0] = aux->x - 30;
-  matrix_room[4][1] = aux->y;
 
   sum_matrix_room[0][0] = 0;
   sum_matrix_room[0][1] = 1;
@@ -2054,6 +2049,8 @@ house *build_house (int area, int pos)
     matrix_room[1][1] = aux->y;
     matrix_room[2][0] = aux->x;
     matrix_room[2][1] = aux->y;
+    matrix_room[3][0] = aux->x;
+    matrix_room[4][0] = aux->x;
     
     aux = h->bedroom->list_vertex;
     i = 0;
@@ -2064,9 +2061,7 @@ house *build_house (int area, int pos)
       i += 1;
     }
 
-    matrix_room[3][0] = aux->x;
     matrix_room[3][1] = aux->y + 30;
-    matrix_room[4][0] = aux->x;
     matrix_room[4][1] = aux->y + 30;
 
     sum_matrix_room[0][0] = 1;
@@ -2185,7 +2180,6 @@ house *build_house (int area, int pos)
     sum_matrix[3][1] = -1; 
 
     h->bedroom2 = build_beadroom_with_bathroom(matrix, sum_matrix, (int) ((double)area * 0.1315), pos, 2);
-    
     
     //quarto com closet  
     list *aux = h->bedroom1->list_vertex;
@@ -2344,6 +2338,8 @@ house *build_house (int area, int pos)
     matrix_room[1][1] = aux->y;
     matrix_room[2][0] = aux->x;
     matrix_room[2][1] = aux->y;
+    matrix_room[3][1] = aux->y;
+    matrix_room[4][1] = aux->y;
     
     aux = h->bedroom->list_vertex;
     i = 0;
@@ -2355,9 +2351,7 @@ house *build_house (int area, int pos)
     }
 
     matrix_room[3][0] = aux->x + 30;
-    matrix_room[3][1] = aux->y;
     matrix_room[4][0] = aux->x + 30;
-    matrix_room[4][1] = aux->y;
 
     sum_matrix_room[0][0] = 0;
     sum_matrix_room[0][1] = -1;
@@ -2632,6 +2626,8 @@ house *build_house (int area, int pos)
     matrix_room[1][1] = aux->y;
     matrix_room[2][0] = aux->x;
     matrix_room[2][1] = aux->y;
+    matrix_room[3][0] = aux->x;
+    matrix_room[4][0] = aux->x;
     
     aux = h->bedroom->list_vertex;
     i = 0;
@@ -2642,9 +2638,7 @@ house *build_house (int area, int pos)
       i += 1;
     }
 
-    matrix_room[3][0] = aux->x;
     matrix_room[3][1] = aux->y - 30;
-    matrix_room[4][0] = aux->x;
     matrix_room[4][1] = aux->y - 30;
 
     sum_matrix_room[0][0] = -1;
